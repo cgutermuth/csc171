@@ -38,6 +38,8 @@
 	<text x={m.left} y="18" font-size="15" font-weight="600">{title}</text>
 	<g bind:this={xAxis} transform="translate(0, {height - m.bottom})" />
 	<g bind:this={yAxis} transform="translate({m.left}, 0)" />
+	<line x1={xScale(2022)} x2={xScale(2022)} y1={m.top} y2={height - m.bottom} stroke="#333" stroke-width="1.5" stroke-dasharray="5 4" />
+	<text x={xScale(2022) + 4} y={m.top + 10} font-size="11" font-weight="600">Dobbs</text>
 	<g fill="none" stroke-width="2.5" stroke-opacity="0.8">
 		{#each series as s (s.state)}
 			<path d={line(s.rows)} stroke={color(s.rank)}><title>{s.state}</title></path>
