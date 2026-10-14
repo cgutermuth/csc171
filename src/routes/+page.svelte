@@ -17,6 +17,7 @@
 			return Array.from(d3.group(rows, (d) => d.year), ([year, g]) => ({
 				year,
 				state: `Rank ${hoveredRank}`,
+				state_abbr: `R${hoveredRank}`,
 				policy_rank: hoveredRank,
 				...Object.fromEntries(metrics.map((k) => [k, d3.mean(g, (d) => d[k])]))
 			}));
@@ -25,15 +26,19 @@
 	});
 
 	onMount(async () => {
-		data = await d3.csv(asset('/state_data.csv'), d3.autoType);
+		data = await d3.csv(asset('state_data.csv'), d3.autoType);
 	});
 </script>
 
 <main>
 	<h1>Reproductive health outcomes by state, 2020–2024</h1>
 	{#if data.length}
-		<Map {data} onHover={(s) => (state = s)} onRankHover={(r) => (hoveredRank = r)} />
-		<Chain data={filtered} />
+		<div class="layout">
+			<div class="map">
+				<Map {data} onHover={(s) => (state = s)} onRankHover={(r) => (hoveredRank = r)} />
+			</div>
+			<Chain data={filtered} />
+		</div>
 	{:else}
 		<p>Loading…</p>
 	{/if}
@@ -41,9 +46,19 @@
 
 <style>
 	main {
-		max-width: 1000px;
+		max-width: 1400px;
 		margin: 0 auto;
 		padding: 1rem;
 		font-family: system-ui, sans-serif;
+	}
+	.layout {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+		gap: 1.5rem;
+		align-items: start;
+	}
+	.map {
+		position: sticky;
+		top: 1rem;
 	}
 </style>

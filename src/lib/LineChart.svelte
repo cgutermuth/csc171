@@ -4,8 +4,8 @@
 	let { data, title, y, yLabel, color } = $props();
 
 	const width = 440;
-	const height = 280;
-	const m = { top: 34, right: 12, bottom: 44, left: 56 };
+	const height = 230;
+	const m = { top: 34, right: 34, bottom: 40, left: 56 };
 
 	let xScale = $derived(d3.scaleLinear().domain([2020, 2024]).range([m.left, width - m.right]));
 	let yScale = $derived(
@@ -21,7 +21,8 @@
 		Array.from(d3.group(data, (d) => d.state), ([state, rows]) => ({
 			state,
 			rank: rows[0].policy_rank,
-			d: line(rows.slice().sort((a, b) => a.year - b.year))
+			abbr: rows[0].state_abbr,
+			rows: rows.slice().sort((a, b) => a.year - b.year)
 		}))
 	);
 
@@ -37,9 +38,15 @@
 	<text x={m.left} y="18" font-size="15" font-weight="600">{title}</text>
 	<g bind:this={xAxis} transform="translate(0, {height - m.bottom})" />
 	<g bind:this={yAxis} transform="translate({m.left}, 0)" />
-	<g fill="none" stroke-width="1.2" stroke-opacity="0.6">
+	<g fill="none" stroke-width="2.5" stroke-opacity="0.8">
 		{#each series as s (s.state)}
-			<path d={s.d} stroke={color(s.rank)}><title>{s.state}</title></path>
+			<path d={line(s.rows)} stroke={color(s.rank)}><title>{s.state}</title></path>
+		{/each}
+	</g>
+	<g font-size="9">
+		{#each series as s (s.state)}
+			{@const last = s.rows[s.rows.length - 1]}
+			<text x={xScale(last.year) + 4} y={yScale(last[y])} dy="0.32em">{s.abbr}</text>
 		{/each}
 	</g>
 	<text x={(m.left + width - m.right) / 2} y={height - 8} font-size="12" text-anchor="middle">Year</text>

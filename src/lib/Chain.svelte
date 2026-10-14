@@ -25,9 +25,13 @@
 
 <style>
 	.grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-		gap: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+	h2 {
+		margin-top: 0;
+		font-size: 1.2rem;
 	}
 	.note {
 		font-size: 0.85rem;
