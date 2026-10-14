@@ -3,7 +3,7 @@
 	import { feature } from 'topojson-client';
 	import topology from 'us-atlas/states-10m.json';
 
-	let { data, onHover } = $props();
+	let { data, onHover, onRankHover } = $props();
 
 	const width = 960;
 	const height = 600;
@@ -34,13 +34,19 @@
 	<g transform="translate(250, {height - 40})">
 		<text y="-8" font-size="13">Policy rank (1 = most restrictive, 7 = most protective)</text>
 		{#each ranks as r, i (r)}
-			<rect x={i * 60} width="60" height="14" fill={color(r)} />
-			<text x={i * 60 + 30} y="30" font-size="12" text-anchor="middle">{r}</text>
+			<g class="swatch" onmouseenter={() => onRankHover(r)} onmouseleave={() => onRankHover(null)}>
+				<rect x={i * 60} width="60" height="14" fill={color(r)} />
+				<rect x={i * 60} y="14" width="60" height="22" fill="transparent" />
+				<text x={i * 60 + 30} y="30" font-size="12" text-anchor="middle">{r}</text>
+			</g>
 		{/each}
 	</g>
 </svg>
 
 <style>
+	.swatch {
+		cursor: pointer;
+	}
 	svg {
 		width: 100%;
 		max-width: 960px;
