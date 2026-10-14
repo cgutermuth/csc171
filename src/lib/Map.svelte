@@ -25,7 +25,7 @@
 	<g>
 		{#each tiles as t (t.name)}
 			{#if t.d}
-				<path d={t.d} fill={t.rank ? color(t.rank) : '#ddd'} stroke="#fff" stroke-width="0.75" onmouseenter={() => onHover(t.name)} onmouseleave={() => onHover(null)}>
+				<path role="img" aria-label="{t.name}: policy rank {t.rank}" d={t.d} fill={t.rank ? color(t.rank) : '#ddd'} stroke="#fff" stroke-width="0.75" onmouseenter={() => onHover(t.name)} onmouseleave={() => onHover(null)}>
 					<title>{t.name}: policy rank {t.rank}</title>
 				</path>
 			{/if}
@@ -34,7 +34,7 @@
 	<g transform="translate(250, {height - 40})">
 		<text y="-8" font-size="13">Policy rank (1 = most restrictive, 7 = most protective)</text>
 		{#each ranks as r, i (r)}
-			<g class="swatch" onmouseenter={() => onRankHover(r)} onmouseleave={() => onRankHover(null)}>
+			<g class="swatch" role="img" aria-label="Policy rank {r}" onmouseenter={() => onRankHover(r)} onmouseleave={() => onRankHover(null)}>
 				<rect x={i * 60} width="60" height="14" fill={color(r)} />
 				<rect x={i * 60} y="14" width="60" height="22" fill="transparent" />
 				<text x={i * 60 + 30} y="30" font-size="12" text-anchor="middle">{r}</text>

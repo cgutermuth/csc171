@@ -1,6 +1,7 @@
 <script>
 	import * as d3 from 'd3';
 	import { onMount } from 'svelte';
+	import { asset } from '$app/paths';
 	import Map from '#lib/Map.svelte';
 	import Chain from '#lib/Chain.svelte';
 
@@ -24,7 +25,7 @@
 	});
 
 	onMount(async () => {
-		data = await d3.csv('/state_data.csv', d3.autoType);
+		data = await d3.csv(asset('/state_data.csv'), d3.autoType);
 	});
 </script>
 
